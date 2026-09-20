@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#2f6bff">
+<title>系规千题闯关 · 第二版</title>
+<style>
+:root{
+  --bg:#f4f5f7;--card:#fff;--text:#1f2329;--sub:#8a9099;
+  --primary:#2f6bff;--primary-d:#1f4fd8;--ok:#10b981;--ok-bg:#e8f8f2;
+  --bad:#ef4444;--bad-bg:#fdecec;--line:#eaecf0;--radius:14px;
+  --shadow:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;font-size:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+#app{max-width:760px;margin:0 auto;padding:0 14px;min-height:100vh;}
+.muted{color:var(--sub);}
+.hero{margin:14px 0 6px;padding:22px 20px;border-radius:18px;color:#fff;
+  background:linear-gradient(135deg,#3d6cff 0%,#6b3dff 100%);box-shadow:0 8px 24px rgba(61,108,255,.25);}
+.hero-title{font-size:22px;font-weight:700;letter-spacing:.5px;}
+.hero-sub{font-size:13px;opacity:.85;margin-top:2px;}
+.hero-stats{display:flex;margin-top:18px;gap:10px;}
+.hs-item{flex:1;background:rgba(255,255,255,.16);border-radius:12px;padding:10px 0;text-align:center;}
+.hs-item b{display:block;font-size:19px;line-height:1.2;}
+.hs-item span{font-size:11px;opacity:.85;}
+.sec-title{font-size:14px;font-weight:600;color:var(--sub);margin:20px 4px 10px;letter-spacing:.4px;}
+.ch-list{display:flex;flex-direction:column;gap:10px;}
+.ch-card{background:var(--card);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);transition:transform .12s;}
+.ch-card:active{transform:scale(.985);}
+.ch-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.ch-name{font-size:15px;font-weight:600;flex:1;}
+.ch-rate{font-size:13px;font-weight:700;color:var(--ok);}
+.ch-rate.bad{color:var(--bad);}
+.bar{height:6px;background:#eef0f4;border-radius:99px;overflow:hidden;margin:10px 0 8px;}
+.bar.slim{height:4px;margin:8px 0 0;}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#3d6cff,#6b3dff);border-radius:99px;transition:width .3s;}
+.ch-bottom{display:flex;align-items:center;justify-content:space-between;}
+.ch-bottom .muted{font-size:12.5px;}
+.mini-btn{font-size:12.5px;color:var(--sub);border:1px solid var(--line);padding:4px 12px;border-radius:99px;background:#fafbfc;}
+.mini-btn:active{background:#f0f2f5;}
+.quiz-head{display:flex;align-items:center;gap:8px;padding:12px 0 6px;position:sticky;top:0;background:var(--bg);z-index:20;}
+.quiz-head .qh-title{flex:1;font-size:14px;font-weight:600;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--card);box-shadow:var(--shadow);font-size:17px;display:flex;align-items:center;justify-content:center;}
+.icon-btn:active{background:#eef0f4;}
+.quiz-progress{margin:6px 0 12px;}
+.qp-text{font-size:12.5px;color:var(--sub);margin-bottom:4px;}
+.qp-text b{color:var(--primary);font-size:15px;}
+.q-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+.q-text{font-size:16px;font-weight:600;line-height:1.7;margin-bottom:14px;word-break:break-word;}
+.q-opts{display:flex;flex-direction:column;gap:9px;}
+.opt{display:flex;align-items:flex-start;gap:10px;text-align:left;width:100%;padding:11px 13px;border-radius:11px;border:1.5px solid var(--line);background:#fafbfc;transition:all .15s;line-height:1.55;}
+.opt:active{background:#f0f2f5;}
+.opt .ol{flex:0 0 22px;height:22px;border-radius:50%;background:#e8eaef;color:#5a6270;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.opt .ot{flex:1;font-size:14.5px;word-break:break-word;}
+.opt.ok{border-color:var(--ok);background:var(--ok-bg);}
+.opt.ok .ol{background:var(--ok);color:#fff;}
+.opt.bad{border-color:var(--bad);background:var(--bad-bg);}
+.opt.bad .ol{background:var(--bad);color:#fff;}
+.opt.dim{opacity:.55;}
+.opt:disabled{cursor:default;}
+.fb{margin-top:14px;border-radius:11px;padding:12px 13px;font-size:13.8px;line-height:1.7;}
+.fb-ok{background:var(--ok-bg);border:1px solid #bfe9d8;}
+.fb-bad{background:var(--bad-bg);border:1px solid #f8cccc;}
+.fb-head{font-weight:700;margin-bottom:5px;}
+.fb-ok .fb-head{color:#0b8a63;}
+.fb-bad .fb-head{color:#c92a2a;}
+.fb-body{color:#42484f;word-break:break-word;}
+.quiz-foot{display:flex;gap:10px;margin:16px 0 12px;}
+.btn{flex:1;padding:12px 0;border-radius:12px;font-size:15px;font-weight:600;transition:all .15s;}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 3px 10px rgba(47,107,255,.28);}
+.btn-primary:active{background:var(--primary-d);}
+.btn-ghost{background:var(--card);color:var(--text);box-shadow:var(--shadow);}
+.btn-ghost:active{background:#eef0f4;}
+.btn:disabled{opacity:.4;box-shadow:none;}
+.mask{position:fixed;inset:0;background:rgba(16,24,40,.45);z-index:100;display:flex;justify-content:flex-end;animation:fade .18s;}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.drawer{width:min(88vw,420px);height:100%;background:#fff;padding:16px 16px 30px;overflow-y:auto;animation:slide .22s ease-out;}
+@keyframes slide{from{transform:translateX(30px);opacity:.6}to{transform:translateX(0);opacity:1}}
+.drawer-head{font-size:15px;font-weight:700;margin-bottom:4px;}
+.drawer-sub{font-size:12.5px;color:var(--sub);margin-bottom:14px;}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--sub);margin-bottom:12px;flex-wrap:wrap;}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:middle;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:8px;}
+.gnum{height:40px;border-radius:10px;font-size:13.5px;font-weight:600;border:1.5px solid var(--line);background:#fafbfc;color:#5a6270;}
+.gnum.cur{outline:2.5px solid var(--primary);outline-offset:1px;color:var(--primary);}
+.gnum.g-ok{background:var(--ok-bg);border-color:#a9e2ce;color:#0b8a63;}
+.gnum.g-bad{background:var(--bad-bg);border-color:#f6c6c6;color:#c92a2a;}
+.drawer-close{margin-top:20px;width:100%;padding:11px;border-radius:11px;background:#f0f2f5;font-weight:600;}
+.page-title{font-size:19px;font-weight:700;margin:16px 4px 12px;}
+.wrong-item{background:var(--card);border-radius:var(--radius);padding:13px 15px;margin-bottom:10px;box-shadow:var(--shadow);}
+.wrong-item:active{transform:scale(.99);}
+.wi-ch{font-size:11.5px;color:var(--primary);margin-bottom:4px;font-weight:600;}
+.wi-q{font-size:14.5px;font-weight:600;line-height:1.6;margin-bottom:6px;word-break:break-word;}
+.wi-a{font-size:13px;color:#5a6270;line-height:1.6;word-break:break-word;}
+.wi-a b{color:var(--ok);}
+.wi-a s{color:var(--bad);text-decoration:line-through;}
+.empty{text-align:center;padding:60px 20px;color:var(--sub);font-size:14px;}
+.empty .ico{font-size:40px;display:block;margin-bottom:10px;opacity:.5;}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);}
+.stat-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.stat-name{font-size:14px;font-weight:600;flex:1;}
+.stat-num{font-size:14px;font-weight:700;}
+.stat-num.good{color:var(--ok);}
+.stat-num.bad{color:var(--bad);}
+.stat-sub{font-size:12.5px;color:var(--sub);margin-top:6px;display:flex;justify-content:space-between;}
+.danger-zone{margin:26px 0 20px;}
+.danger-btn{width:100%;padding:12px;border-radius:12px;background:#fff;color:var(--bad);border:1px solid #f6c6c6;font-weight:600;}
+.danger-btn:active{background:var(--bad-bg);}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);}
+.tabbar .tab{flex:1;padding:9px 0 8px;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11px;color:var(--sub);}
+.tabbar .tab .ti{font-size:19px;line-height:1;}
+.tabbar .tab.active{color:var(--primary);}
+.tabbar-spacer{height:70px;}
+#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,14px);background:rgba(31,35,41,.92);color:#fff;font-size:13.5px;padding:9px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:all .22s;z-index:200;white-space:nowrap;}
+#toast.show{opacity:1;transform:translate(-50%,0);}
+@media (min-width:768px){body{font-size:15.5px;}#app{padding:0 20px;}.hero{padding:28px 26px;}.hero-title{font-size:26px;}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+
+<!-- 题库：外部文件，逐章追加即可 -->
+<script src="questions.js"></script>
+
+<script>
+/* ========== 状态管理 ========== */
+const KEY='xiguiguan_v2';
+let state={records:{},lastPos:{}};
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);state.records=d.records||{};state.lastPos=d.lastPos||{};}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+
+/* ========== 工具 ========== */
+const LETTERS=['A','B','C','D','E','F','G','H'];
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const chById=id=>BANK.find(c=>c.id===id);
+function recOf(id){if(!state.records[id])state.records[id]={};return state.records[id];}
+function chStats(ch){
+  const rec=state.records[ch.id]||{};
+  const keys=Object.keys(rec);let ok=0;keys.forEach(k=>{if(rec[k].ok)ok++;});
+  const done=keys.length,total=ch.questions.length;
+  return{done,ok,wrong:done-ok,total,rate:done?Math.round(ok/done*100):0,cover:total?Math.round(done/total*100):0};
+}
+function globalStats(){
+  let done=0,ok=0,total=0;
+  BANK.forEach(ch=>{const s=chStats(ch);done+=s.done;ok+=s.ok;total+=s.total;});
+  return{done,ok,total,rate:done?Math.round(ok/done*100):0};
+}
+function firstUnanswered(id){
+  const ch=chById(id);const rec=state.records[id]||{};
+  for(let i=0;i<ch.questions.length;i++)if(!rec[i])return i;
+  return 0;
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(()=>t.classList.remove('show'),1600);}
+
+/* ========== 路由 ========== */
+let route={view:'home'},quiz={chId:null,idx:0},outlineOpen=false;
+function go(r){route=r;outlineOpen=false;render();window.scrollTo(0,0);}
+
+function render(){
+  const app=document.getElementById('app');let html='';
+  if(route.view==='home')html=viewHome();
+  else if(route.view==='quiz')html=viewQuiz();
+  else if(route.view==='wrong')html=viewWrong();
+  else if(route.view==='stats')html=viewStats();
+  app.innerHTML=html;
+}
+
+function viewHome(){
+  const g=globalStats();
+  let h=`<div class="hero"><div class="hero-title">系规千题闯关</div>
+    <div class="hero-sub">系统规划与管理师 · 第二版 · 有解析</div>
+    <div class="hero-stats">
+      <div class="hs-item"><b>${g.done}</b><span>已练</span></div>
+      <div class="hs-item"><b>${g.total}</b><span>题库</span></div>
+      <div class="hs-item"><b>${g.rate}%</b><span>正确率</span></div>
+    </div></div>
+    <div class="sec-title">章节练习</div><div class="ch-list">`;
+  BANK.forEach(ch=>{
+    const s=chStats(ch),rc=(s.done&&s.rate<60)?'bad':'';
+    h+=`<div class="ch-card" data-act="start" data-ch="${ch.id}">
+      <div class="ch-top"><div class="ch-name">${esc(ch.title)}</div>
+      <div class="ch-rate ${rc}">${s.done?s.rate+'%':''}</div></div>
+      <div class="bar"><i style="width:${s.cover}%"></i></div>
+      <div class="ch-bottom"><span class="muted">已做 ${s.done}/${s.total}　错 ${s.wrong}</span>
+      <button class="mini-btn" data-act="redo" data-ch="${ch.id}">重做</button></div>
+    </div>`;
+  });
+  h+=`</div><div class="tabbar-spacer"></div>`+tabbar('home');
+  return h;
+}
+function tabbar(cur){
+  const items=[{k:'home',i:'📚',t:'章节'},{k:'wrong',i:'❌',t:'错题本'},{k:'stats',i:'📊',t:'统计'}];
+  return `<div class="tabbar">`+items.map(it=>`<button class="tab ${cur===it.k?'active':''}" data-act="tab" data-tab="${it.k}"><span class="ti">${it.i}</span><span>${it.t}</span></button>`).join('')+`</div>`;
+}
+function viewQuiz(){
+  const ch=chById(quiz.chId);if(!ch)return '<div class="page-title">章节不存在</div>';
+  if(quiz.idx<0)quiz.idx=0;
+  if(quiz.idx>ch.questions.length-1)quiz.idx=ch.questions.length-1;
+  const q=ch.questions[quiz.idx],rec=(state.records[ch.id]||{})[quiz.idx],total=ch.questions.length;
+  const opts=q.o.map((t,i)=>{
+    let cls='opt';
+    if(rec){if(i===q.a)cls+=' ok';else if(i===rec.c)cls+=' bad';else cls+=' dim';}
+    return `<button class="${cls}" data-act="pick" data-i="${i}" ${rec?'disabled':''}><span class="ol">${LETTERS[i]}</span><span class="ot">${esc(t)}</span></button>`;
+  }).join('');
+  let fb='';
+  if(rec){fb=`<div class="fb ${rec.ok?'fb-ok':'fb-bad'}"><div class="fb-head">${rec.ok?'✓ 回答正确':'✗ 回答错误'}　|　正确答案：${LETTERS[q.a]}</div>${q.e?`<div class="fb-body">${esc(q.e)}</div>`:''}</div>`;}
+  let h=`<div class="quiz-head">
+    <button class="icon-btn" data-act="back">‹</button>
+    <div class="qh-title">${esc(ch.title)}</div>
+    <button class="icon-btn" data-act="outline">☰</button></div>
+    <div class="quiz-progress"><div class="qp-text"><b>${quiz.idx+1}</b> / ${total}</div>
+    <div class="bar slim"><i style="width:${(quiz.idx+1)/total*100}%"></i></div></div>
+    <div class="q-card"><div class="q-text">${quiz.idx+1}. ${esc(q.q)}</div>
+    <div class="q-opts">${opts}</div>${fb}</div>
+    <div class="quiz-foot">
+      <button class="btn btn-ghost" data-act="prev" ${quiz.idx===0?'disabled':''}>上一题</button>
+      <button class="btn btn-primary" data-act="next" ${quiz.idx===total-1?'disabled':''}>下一题</button>
+    </div><div class="tabbar-spacer"></div>`;
+  if(outlineOpen)h+=viewOutline(ch);
+  return h;
+}
+function viewOutline(ch){
+  const rec=state.records[ch.id]||{};
+  const cells=ch.questions.map((q,i)=>{
+    const r=rec[i],cls=r?(r.ok?'g-ok':'g-bad'):'';
+    return `<button class="gnum ${cls} ${i===quiz.idx?'cur':''}" data-act="jump" data-i="${i}">${i+1}</button>`;
+  }).join('');
+  return `<div class="mask" data-act="closeOutline"><div class="drawer" data-act="noop">
+    <div class="drawer-head">题目大纲</div><div class="drawer-sub">${esc(ch.title)}</div>
+    <div class="legend">
+      <span><i style="background:#e8f8f2;border:1px solid #a9e2ce"></i>正确</span>
+      <span><i style="background:#fdecec;border:1px solid #f6c6c6"></i>错误</span>
+      <span><i style="background:#fafbfc;border:1px solid #eaecf0"></i>未做</span>
+    </div>
+    <div class="grid">${cells}</div>
+    <button class="drawer-close" data-act="closeOutline">关闭</button>
+  </div></div>`;
+}
+function viewWrong(){
+  const items=[];
+  BANK.forEach(ch=>{const rec=state.records[ch.id]||{};Object.keys(rec).forEach(k=>{if(!rec[k].ok)items.push({ch,idx:+k,r:rec[k]});});});
+  items.sort((a,b)=>a.ch.title.localeCompare(b.ch.title,'zh')||a.idx-b.idx);
+  let h=`<div class="page-title">错题本 <span class="muted" style="font-size:14px;font-weight:400">共 ${items.length} 题</span></div>`;
+  if(!items.length)h+=`<div class="empty"><span class="ico">🎉</span>还没有错题，继续保持！</div>`;
+  else items.forEach(it=>{
+    const q=it.ch.questions[it.idx];
+    h+=`<div class="wrong-item" data-act="jumpTo" data-ch="${it.ch.id}" data-i="${it.idx}">
+      <div class="wi-ch">${esc(it.ch.title)} · 第 ${it.idx+1} 题</div>
+      <div class="wi-q">${esc(q.q)}</div>
+      <div class="wi-a">你的答案：<s>${LETTERS[it.r.c]}</s>　正确答案：<b>${LETTERS[q.a]}</b></div>
+    </div>`;
+  });
+  h+=`<div class="tabbar-spacer"></div>`+tabbar('wrong');
+  return h;
+}
+function viewStats(){
+  const g=globalStats();
+  let h=`<div class="page-title">学习统计</div>
+    <div class="stat-card" style="background:linear-gradient(135deg,#3d6cff,#6b3dff);color:#fff;border:none">
+      <div style="font-size:13px;opacity:.85">总正确率</div>
+      <div style="font-size:34px;font-weight:700;line-height:1.3">${g.rate}%</div>
+      <div style="font-size:12.5px;opacity:.85">已练 ${g.done} 题 · 答对 ${g.ok} 题 · 题库共 ${g.total} 题</div>
+    </div>
+    <div class="sec-title">各章节正确率</div>`;
+  BANK.forEach(ch=>{
+    const s=chStats(ch),cls=!s.done?'':(s.rate>=80?'good':(s.rate<60?'bad':''));
+    h+=`<div class="stat-card">
+      <div class="stat-top"><div class="stat-name">${esc(ch.title)}</div>
+      <div class="stat-num ${cls}">${s.done?s.rate+'%':'—'}</div></div>
+      <div class="bar"><i style="width:${s.cover}%"></i></div>
+      <div class="stat-sub"><span>已做 ${s.done}/${s.total}</span><span>对 ${s.ok} · 错 ${s.wrong}</span></div>
+    </div>`;
+  });
+  h+=`<div class="danger-zone"><button class="danger-btn" data-act="clearAll">清空全部做题记录</button></div><div class="tabbar-spacer"></div>`+tabbar('stats');
+  return h;
+}
+
+/* ========== 行为 ========== */
+function startChapter(id,fresh){
+  if(fresh){delete state.records[id];delete state.lastPos[id];save();}
+  quiz.chId=id;quiz.idx=firstUnanswered(id);state.lastPos[id]=quiz.idx;save();go({view:'quiz'});
+}
+function redoChapter(id){
+  const ch=chById(id);
+  if(!confirm(`确定重做「${ch.title}」吗？\n该章节的做题记录和正确率将被清空。`))return;
+  delete state.records[id];delete state.lastPos[id];save();toast('已清空该章节记录');render();
+}
+function pickOption(i){
+  const ch=chById(quiz.chId),rec=recOf(ch.id);
+  if(rec[quiz.idx])return;
+  const q=ch.questions[quiz.idx];
+  rec[quiz.idx]={c:i,ok:i===q.a};state.lastPos[ch.id]=quiz.idx;save();render();
+}
+function jumpTo(id,idx){quiz.chId=id;quiz.idx=idx;state.lastPos[id]=idx;save();go({view:'quiz'});}
+
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');if(!el)return;
+  const act=el.dataset.act;
+  switch(act){
+    case 'noop':return;
+    case 'start':startChapter(el.dataset.ch,false);break;
+    case 'redo':e.stopPropagation();redoChapter(el.dataset.ch);break;
+    case 'tab':go({view:el.dataset.tab});break;
+    case 'back':go({view:'home'});break;
+    case 'pick':pickOption(Number(el.dataset.i));break;
+    case 'prev':if(quiz.idx>0){quiz.idx--;state.lastPos[quiz.chId]=quiz.idx;save();render();window.scrollTo(0,0);}break;
+    case 'next':{const ch=chById(quiz.chId);if(quiz.idx<ch.questions.length-1){quiz.idx++;state.lastPos[quiz.chId]=quiz.idx;save();render();window.scrollTo(0,0);}break;}
+    case 'outline':outlineOpen=true;render();break;
+    case 'closeOutline':outlineOpen=false;render();break;
+    case 'jump':quiz.idx=Number(el.dataset.i);state.lastPos[quiz.chId]=quiz.idx;save();outlineOpen=false;render();window.scrollTo(0,0);break;
+    case 'jumpTo':jumpTo(el.dataset.ch,Number(el.dataset.i));break;
+    case 'clearAll':if(confirm('确定清空全部做题记录吗？此操作不可恢复。')){state.records={};state.lastPos={};save();toast('已清空全部记录');render();}break;
+  }
+});
+
+load();render();
+</script>
+</body>
+</html>
